@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Silver Signal Bot</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#121a2d;--line:#293650;--text:#eef3ff;--muted:#a9b5cc;--green:#25c685;--red:#ff6377;--yellow:#f4c45d;--blue:#83a9ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:900px;margin:auto;padding:18px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-size:25px;margin:0}p{margin:6px 0;color:var(--muted)}.badge{border:1px solid #7a5d23;color:#ffdc87;background:#2b2415;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}.wide{grid-column:1/-1}.label{color:var(--muted);font-size:13px}.price{font-size:27px;font-weight:750;margin-top:6px}.status{display:inline-block;border-radius:8px;padding:5px 9px;background:#332b16;color:var(--yellow);font-weight:800;margin-top:10px}
+h2{font-size:17px;margin:0 0 10px}button,a.btn{border:0;border-radius:10px;background:#789cff;color:#081126;font-weight:750;padding:12px 15px;text-decoration:none;display:inline-block;cursor:pointer;font-size:15px}
+button.secondary,a.secondary{background:#202b42;color:var(--text);border:1px solid var(--line)}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+select,input{width:100%;padding:12px;border-radius:10px;background:#0d1527;border:1px solid var(--line);color:var(--text);font-size:16px;margin-top:6px}
+.small{font-size:13px;color:var(--muted)}.notice{border-left:4px solid var(--yellow);background:#211e18;padding:12px;border-radius:8px;color:#f4e6c5}
+footer{margin-top:16px;color:var(--muted);font-size:12px}
+@media(max-width:560px){main{padding:13px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.price{font-size:24px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div><h1>⚡ SILVER SIGNAL BOT</h1><p>MCX Silver · Silver Mini · Signal dashboard</p></div>
+  <span class="badge">LIVE FEED NOT CONNECTED</span>
+</header>
+
+<div class="notice">
+  <strong>ध्यान दें:</strong> यह अपडेटेड डैशबोर्ड है, अभी लाइव MCX डेटा इससे जुड़ा नहीं है। लाइव भाव के लिए समर्थित डेटा प्रदाता और सुरक्षित बैकएंड जोड़ना होगा। नीचे दिखने वाले डैशबोर्ड मान वास्तविक बाजार भाव नहीं हैं।
+</div>
+
+<section class="grid" style="margin-top:14px">
+  <div class="card">
+    <div class="label">Instrument</div>
+    <label for="instrument" class="small">कॉन्ट्रैक्ट चुनें</label>
+    <select id="instrument">
+      <option>MCX Silver</option>
+      <option>MCX Silver Mini</option>
+    </select>
+    <div class="label" style="margin-top:14px">Live market price</div>
+    <div class="price">—</div>
+    <span class="status">DATA NOT CONNECTED</span>
+    <p class="small">लाइव भाव उपलब्ध होने पर यहाँ दिखेगा।</p>
+  </div>
+  <div class="card">
+    <div class="label">Signal timeframe</div>
+    <label for="timeframe" class="small">टाइमफ्रेम चुनें</label>
+    <select id="timeframe">
+      <option value="5m">5 मिनट</option>
+      <option value="15m">15 मिनट</option>
+      <option value="30m">30 मिनट</option>
+      <option value="1h">1 घंटा</option>
+      <option value="2h">2 घंटे</option>
+    </select>
+    <div class="label" style="margin-top:14px">Latest signal</div>
+    <div class="price">WAIT</div>
+    <p class="small">सिग्नल तब तक लाइव नहीं माना जाएगा जब तक डेटा कनेक्शन न जुड़ जाए।</p>
+  </div>
+  <div class="card wide">
+    <h2>Signal details</h2>
+    <div class="grid">
+      <div><div class="label">Entry</div><div>—</div></div>
+      <div><div class="label">Stop Loss</div><div>—</div></div>
+      <div><div class="label">Target 1</div><div>—</div></div>
+      <div><div class="label">Last update</div><div>—</div></div>
+    </div>
+    <div class="actions">
+      <button id="notify">फोन नोटिफिकेशन जाँचें</button>
+      <a class="btn secondary" href="silver_signal_bot_backtest.html">CSV Backtest खोलें</a>
+    </div>
+    <p id="notifyStatus" class="small" aria-live="polite">नोटिफिकेशन की अनुमति जाँचने के लिए बटन दबाएँ। वास्तविक सिग्नल अलर्ट के लिए बैकएंड/अलर्ट सेवा जोड़नी होगी।</p>
+  </div>
+  <div class="card wide">
+    <h2>अगला कदम: लाइव डेटा जोड़ना</h2>
+    <ol>
+      <li>ऐसा डेटा प्रदाता चुनना जो खास तौर पर MCX Silver और Silver Mini का लाइव डेटा देता हो।</li>
+      <li>API key को सुरक्षित बैकएंड में रखना—HTML/वेबसाइट में सीधे नहीं।</li>
+      <li>डेटा से कैंडल बनाकर रणनीति चलाना और पहले पेपर/डेमो मोड में जाँचना।</li>
+      <li>अलर्ट सेवा जोड़कर फोन पर BUY/SELL/WAIT नोटिफिकेशन भेजना।</li>
+    </ol>
+    <p class="small">यह वेबसाइट अपने आप ट्रेड नहीं करती। कोई भी संकेत मुनाफे की गारंटी नहीं है।</p>
+  </div>
+</section>
+<footer>Silver Signal Bot · Live feed is intentionally marked disconnected until a verified data source is configured.</footer>
+</main>
+<script>
+const btn=document.getElementById('notify'), status=document.getElementById('notifyStatus');
+btn.addEventListener('click', async () => {
+  if (!('Notification' in window)) {
+    status.textContent='इस ब्राउज़र में वेब नोटिफिकेशन उपलब्ध नहीं हैं।';
+    return;
+  }
+  if (Notification.permission === 'granted') {
+    status.textContent='ब्राउज़र नोटिफिकेशन अनुमति पहले से चालू है। लाइव सिग्नल भेजने के लिए अभी भी बैकएंड/अलर्ट सेवा जोड़नी होगी।';
+    return;
+  }
+  if (Notification.permission === 'denied') {
+    status.textContent='नोटिफिकेशन ब्लॉक हैं। Safari की वेबसाइट सेटिंग में अनुमति बदलनी पड़ सकती है।';
+    return;
+  }
+  try {
+    const result = await Notification.requestPermission();
+    status.textContent = result === 'granted'
+      ? 'अनुमति मिल गई। ध्यान दें: लाइव सिग्नल भेजने की सेवा अभी कनेक्ट नहीं है।'
+      : 'अनुमति नहीं मिली। आप बाद में ब्राउज़र सेटिंग में बदल सकते हैं।';
+  } catch(e) {
+    status.textContent='इस ब्राउज़र में नोटिफिकेशन अनुमति उपलब्ध नहीं हो सकती।';
+  }
+});
+</script>
+</body>
+</html>
