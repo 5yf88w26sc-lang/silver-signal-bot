@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Silver Signal Bot</title>
+<style>
+body{margin:0;background:#10151f;color:#fff;font-family:Arial,sans-serif;padding:18px}
+h1{color:#f4c542;text-align:center}
+.card{background:#1d2635;padding:18px;margin:14px 0;border-radius:14px}
+label{display:block;margin:12px 0 6px}
+select,input,button{width:100%;padding:13px;border-radius:8px;font-size:16px}
+button{background:#f4c542;border:0;font-weight:bold;margin-top:14px}
+.value{font-size:25px;font-weight:bold}
+.small{color:#b8c1d1;font-size:13px;line-height:1.5}
+</style>
+</head>
+<body>
+<h1>🥈 SILVER SIGNAL BOT</h1>
+<div class="card">
+  <label>Market चुनें</label>
+  <select id="market">
+    <option>MCX Silver</option>
+    <option>MCX Silver Mini</option>
+  </select>
+  <label>Demo Price (₹)</label>
+  <input id="price" type="number" value="250000" step="1">
+  <button onclick="analyze()">SIGNAL CHECK करें</button>
+</div>
+<div class="card">
+  <div class="small">CURRENT SIGNAL</div>
+  <div id="signal" class="value">🟡 WAIT</div>
+  <p id="reason">Demo price डालकर Signal Check दबाएँ।</p>
+</div>
+<div class="card">
+  <p>Entry: <b id="entry">—</b></p>
+  <p>Stop Loss: <b id="sl">—</b></p>
+  <p>Target: <b id="target">—</b></p>
+  <p>Risk : Reward: <b>1 : 2</b></p>
+</div>
+<div class="card small">
+  ⚠️ यह शुरुआती DEMO है। यह लाइव MCX डेटा नहीं लेता और वास्तविक बाजार की दिशा नहीं जानता। इसमें BUY/SELL केवल परीक्षण के लिए काल्पनिक हैं। वास्तविक ट्रेड के लिए इसका उपयोग न करें।
+</div>
+<script>
+function analyze(){
+ const p=Number(document.getElementById('price').value);
+ if(!Number.isFinite(p)||p<=0){
+  alert('सही price डालें');return;
+ }
+ document.getElementById('entry').textContent=p.toFixed(2);
+ document.getElementById('sl').textContent='—';
+ document.getElementById('target').textContent='—';
+ document.getElementById('signal').textContent='🟡 WAIT';
+ document.getElementById('reason').textContent=
+ 'अभी लाइव कैंडल और ट्रेंड डेटा कनेक्ट नहीं है। केवल price से भरोसेमंद BUY/SELL तय नहीं किया जा सकता।';
+}
+</script>
+</body>
+</html>
